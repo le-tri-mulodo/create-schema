@@ -51,13 +51,17 @@ public class User {
     // Origin password
     // private String passWord
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", targetEntity = Post.class)
     @Cascade(CascadeType.SAVE_UPDATE)
-    private Set<Post> post;
+    private Set<Post> posts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", targetEntity = Comment.class)
     @Cascade(CascadeType.SAVE_UPDATE)
-    private Set<Comment> comment;
+    private Set<Comment> comments;
+
+    @OneToMany(mappedBy = "user", targetEntity = Token.class)
+    @Cascade(CascadeType.SAVE_UPDATE)
+    private Set<Token> tokens;
 
     /**
      * @return the id
@@ -194,35 +198,5 @@ public class User {
      */
     public void setJoinDate(Date joinDate) {
 	this.joinDate = joinDate;
-    }
-
-    /**
-     * @return the post
-     */
-    public Set<Post> getPost() {
-	return post;
-    }
-
-    /**
-     * @param post
-     *            the post to set
-     */
-    public void setPost(Set<Post> post) {
-	this.post = post;
-    }
-
-    /**
-     * @return the comment
-     */
-    public Set<Comment> getComment() {
-	return comment;
-    }
-
-    /**
-     * @param comment
-     *            the comment to set
-     */
-    public void setComment(Set<Comment> comment) {
-	this.comment = comment;
     }
 }

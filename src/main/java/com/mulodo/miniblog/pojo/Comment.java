@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.ForeignKey;
 
 /**
  * @author TriLe
@@ -39,12 +40,14 @@ public class Comment {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @ForeignKey(name="fk_comments_users")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "partner_id", referencedColumnName = "id")
+    @JoinColumn(name = "partner_id", referencedColumnName = "id", nullable = false)
+    @ForeignKey(name="fk_comments_posts")
     private Post partner;
 
     /**

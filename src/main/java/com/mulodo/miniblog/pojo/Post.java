@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name = "_posts")
@@ -37,11 +38,12 @@ public class Post {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @ForeignKey(name = "fk_posts_users")
     private User user;
 
-    @OneToMany(mappedBy = "partner")
+    @OneToMany(mappedBy = "partner", targetEntity=Comment.class)
     @Cascade(CascadeType.SAVE_UPDATE)
     private Set<Comment> partners;
 

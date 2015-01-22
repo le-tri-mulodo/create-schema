@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.ForeignKey;
 
 @Entity
 @Table(name = "_tokes")
@@ -33,8 +34,9 @@ public class Token {
     private String value;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Cascade(CascadeType.SAVE_UPDATE)
+    @ForeignKey(name = "fk_tokens_users")
     private User user;
 
     /**

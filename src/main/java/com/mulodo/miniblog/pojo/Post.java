@@ -1,9 +1,7 @@
-/**
- * 
- */
 package com.mulodo.miniblog.pojo;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,18 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-/**
- * @author TriLe
- *
- */
 @Entity
-@Table(name = "_comments")
-public class Comment {
+@Table(name = "_posts")
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +30,10 @@ public class Comment {
     @Column(name = "edit_time")
     private Timestamp editTime;
 
-    @Column(name = "content", length = 256)
+    @Column(name = "description", length = 50)
+    private String description;
+
+    @Column(name = "content", length = 1024)
     private String content;
 
     @ManyToOne
@@ -43,9 +41,9 @@ public class Comment {
     @Cascade(CascadeType.SAVE_UPDATE)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "partner_id", referencedColumnName = "id")
-    private Post partner;
+    @OneToMany(mappedBy = "partner")
+    @Cascade(CascadeType.SAVE_UPDATE)
+    private Set<Comment> partners;
 
     /**
      * @return the id
@@ -93,6 +91,21 @@ public class Comment {
     }
 
     /**
+     * @return the description
+     */
+    public String getDescription() {
+	return description;
+    }
+
+    /**
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(String description) {
+	this.description = description;
+    }
+
+    /**
      * @return the content
      */
     public String getContent() {
@@ -123,17 +136,17 @@ public class Comment {
     }
 
     /**
-     * @return the partner
+     * @return the partners
      */
-    public Post getPartner() {
-	return partner;
+    public Set<Comment> getPartners() {
+	return partners;
     }
 
     /**
-     * @param partner
-     *            the partner to set
+     * @param partners
+     *            the partners to set
      */
-    public void setPartner(Post partner) {
-	this.partner = partner;
+    public void setPartners(Set<Comment> partners) {
+	this.partners = partners;
     }
 }

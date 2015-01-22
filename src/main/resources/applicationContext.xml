@@ -21,7 +21,7 @@
 			<property name="dataSource" ref="dataSource" />
 		</bean>
 		
-		<bean id="likeDAO" class="com.mulodo.miniblog.dao.impl.LikeDAOImpl">
+		<bean id="userDAO" class="com.mulodo.miniblog.dao.impl.UserDAOImpl">
 		
 		</bean>
 

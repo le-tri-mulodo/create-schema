@@ -3,6 +3,7 @@
  */
 package com.mulodo.miniblog.pojo;
 
+import java.sql.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ import org.hibernate.annotations.CascadeType;
  *
  */
 @Entity
-@Table(name = "_user")
+@Table(name = "_users")
 public class User {
 
     @Id
@@ -41,16 +42,22 @@ public class User {
     @Column(name = "pass_hash", length = 64)
     private String passHash;
 
+    @Column(name = "avatar_link", length = 256)
+    private String avatarLink;
+
+    @Column(name = "join_date")
+    private Date joinDate;
+
     // Origin password
-    // private String passWord;
+    // private String passWord
 
     @OneToMany(mappedBy = "user")
     @Cascade(CascadeType.SAVE_UPDATE)
-    private Set<Like> likes;
+    private Set<Post> post;
 
-     @OneToMany(mappedBy = "user")
-     @Cascade(CascadeType.SAVE_UPDATE)
-     private Set<Status> statuses;
+    @OneToMany(mappedBy = "user")
+    @Cascade(CascadeType.SAVE_UPDATE)
+    private Set<Comment> comment;
 
     /**
      * @return the id
@@ -153,32 +160,69 @@ public class User {
     }
 
     /**
-     * @return the likes
+     * @return the avatarLink
      */
-    public Set<Like> getLikes() {
-	return likes;
+    public String getAvatarLink() {
+	return avatarLink;
     }
 
     /**
-     * @param likes
-     *            the likes to set
+     * @param avatarLink
+     *            the avatarLink to set
      */
-    public void setLikes(Set<Like> likes) {
-	this.likes = likes;
+    public void setAvatarLink(String avatarLink) {
+	this.avatarLink = avatarLink;
     }
 
     /**
-     * @return the statuses
+     * @return the passHash
      */
-    public Set<Status> getStatuses() {
-	return statuses;
+    public String getPassHash() {
+	return passHash;
     }
 
     /**
-     * @param statuses
-     *            the statuses to set
+     * @return the joinDate
      */
-    public void setStatuses(Set<Status> statuses) {
-	this.statuses = statuses;
+    public Date getJoinDate() {
+	return joinDate;
+    }
+
+    /**
+     * @param joinDate
+     *            the joinDate to set
+     */
+    public void setJoinDate(Date joinDate) {
+	this.joinDate = joinDate;
+    }
+
+    /**
+     * @return the post
+     */
+    public Set<Post> getPost() {
+	return post;
+    }
+
+    /**
+     * @param post
+     *            the post to set
+     */
+    public void setPost(Set<Post> post) {
+	this.post = post;
+    }
+
+    /**
+     * @return the comment
+     */
+    public Set<Comment> getComment() {
+	return comment;
+    }
+
+    /**
+     * @param comment
+     *            the comment to set
+     */
+    public void setComment(Set<Comment> comment) {
+	this.comment = comment;
     }
 }

@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.mulodo.miniblog.dao.LikeDAO;
-import com.mulodo.miniblog.pojo.Like;
+import com.mulodo.miniblog.dao.UserDAO;
+import com.mulodo.miniblog.pojo.User;
 
 /**
  * @author TriLe
@@ -26,9 +26,9 @@ public class Main {
     public static void main(String[] args) {
 	// logger.entry(args);
 	ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-	LikeDAO likeDAO = (LikeDAO) context.getBean("likeDAO");
-	likeDAO.add(new Like());
-	// logger.exit();
+	UserDAO userDAO = (UserDAO) context.getBean("userDAO");
+	userDAO.add(new User());
+	logger.exit();
     }
 
 }

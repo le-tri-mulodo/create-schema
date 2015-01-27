@@ -22,30 +22,30 @@ import org.hibernate.annotations.CascadeType;
  *
  */
 @Entity
-@Table(name = "_users")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "user_name", length = 64)
+    @Column(name = "username", length = 64, nullable = false)
     private String userName;
 
-    @Column(name = "first_name", length = 64)
+    @Column(name = "first_name", length = 64, nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", length = 64)
+    @Column(name = "last_name", length = 64, nullable = false)
     private String lastName;
 
     // use SHA-256 to hash pass
-    @Column(name = "pass_hash", length = 64)
+    @Column(name = "pass_hash", length = 64, nullable = false)
     private String passHash;
 
-    @Column(name = "avatar_link", length = 256)
+    @Column(name = "avatar_link", length = 256, nullable = true)
     private String avatarLink;
 
-    @Column(name = "join_date")
+    @Column(name = "join_date", columnDefinition = "DATE", nullable = false)
     private Date joinDate;
 
     // Origin password

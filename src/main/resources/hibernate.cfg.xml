@@ -4,14 +4,14 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.dialect">
-			org.hibernate.dialect.MySQLDialect
+			org.hibernate.dialect.MySQL5InnoDBDialect
 		</property>
 		<property name="hibernate.connection.driver_class">
 			com.mysql.jdbc.Driver
 		</property>
 
 		<!-- Assume test is the database name -->
-		<property name="hibernate.connection.url">jdbc:mysql://192.168.56.2:3306/sk</property>
+		<property name="hibernate.connection.url">jdbc:mysql://192.168.56.2:3306/mini_blog</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">mysqlremote</property>
 

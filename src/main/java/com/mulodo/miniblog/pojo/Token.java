@@ -16,21 +16,21 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 @Entity
-@Table(name = "_tokes")
+@Table(name = "tokens")
 public class Token {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "create_time")
+    @Column(name = "create_time", columnDefinition = "TIMESTAMP", nullable = false)
     private Timestamp createTime;
 
-    @Column(name = "expired_time")
+    @Column(name = "expired_time", columnDefinition = "TIMESTAMP", nullable = false)
     private Timestamp expiredTime;
 
     // use SHA-256 to hash (username + id + current time)
-    @Column(name = "value", length = 64)
+    @Column(name = "value", length = 64, nullable = false)
     private String value;
 
     @ManyToOne

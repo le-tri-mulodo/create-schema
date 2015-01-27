@@ -4,6 +4,7 @@
 package com.mulodo.miniblog.pojo;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -23,32 +25,41 @@ import org.hibernate.annotations.ForeignKey;
  *
  */
 @Entity
-@Table(name = "_comments")
+@Table(name = "comments")
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "create_time")
+    @Column(name = "content", length = 256, nullable = false)
+    private String content;
+
+    @Column(name = "create_time", columnDefinition = "TIMESTAMP", nullable = false)
     private Timestamp createTime;
 
-    @Column(name = "edit_time")
+    @Column(name = "edit_time", columnDefinition = "TIMESTAMP", nullable = true)
     private Timestamp editTime;
-
-    @Column(name = "content", length = 256)
-    private String content;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @Cascade(CascadeType.SAVE_UPDATE)
-    @ForeignKey(name="fk_comments_users")
+    @ForeignKey(name = "fk_comments_users")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "partner_id", referencedColumnName = "id", nullable = false)
-    @ForeignKey(name="fk_comments_posts")
-    private Post partner;
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    @ForeignKey(name = "fk_comments_posts")
+    private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id", referencedColumnName = "id", nullable = false)
+    @ForeignKey(name = "fk_comments_comments")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", targetEntity = Comment.class)
+    @Cascade(CascadeType.SAVE_UPDATE)
+    private Set<Comment> comments;
 
     /**
      * @return the id
@@ -63,6 +74,21 @@ public class Comment {
      */
     public void setId(int id) {
 	this.id = id;
+    }
+
+    /**
+     * @return the content
+     */
+    public String getContent() {
+	return content;
+    }
+
+    /**
+     * @param content
+     *            the content to set
+     */
+    public void setContent(String content) {
+	this.content = content;
     }
 
     /**
@@ -96,21 +122,6 @@ public class Comment {
     }
 
     /**
-     * @return the content
-     */
-    public String getContent() {
-	return content;
-    }
-
-    /**
-     * @param content
-     *            the content to set
-     */
-    public void setContent(String content) {
-	this.content = content;
-    }
-
-    /**
      * @return the user
      */
     public User getUser() {
@@ -126,17 +137,48 @@ public class Comment {
     }
 
     /**
-     * @return the partner
+     * @return the post
      */
-    public Post getPartner() {
-	return partner;
+    public Post getPost() {
+	return post;
     }
 
     /**
-     * @param partner
-     *            the partner to set
+     * @param post
+     *            the post to set
      */
-    public void setPartner(Post partner) {
-	this.partner = partner;
+    public void setPost(Post post) {
+	this.post = post;
     }
+
+    /**
+     * @return the parent
+     */
+    public Comment getParent() {
+	return parent;
+    }
+
+    /**
+     * @param parent
+     *            the parent to set
+     */
+    public void setParent(Comment parent) {
+	this.parent = parent;
+    }
+
+    /**
+     * @return the comments
+     */
+    public Set<Comment> getComments() {
+	return comments;
+    }
+
+    /**
+     * @param comments
+     *            the comments to set
+     */
+    public void setComments(Set<Comment> comments) {
+	this.comments = comments;
+    }
+
 }

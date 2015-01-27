@@ -18,24 +18,30 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.ForeignKey;
 
 @Entity
-@Table(name = "_posts")
+@Table(name = "posts")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "create_time")
-    private Timestamp createTime;
+    @Column(name = "title", length = 128, nullable = false)
+    private String title;
 
-    @Column(name = "edit_time")
-    private Timestamp editTime;
-
-    @Column(name = "description", length = 50)
+    @Column(name = "description", length = 128, nullable = false)
     private String description;
 
-    @Column(name = "content", length = 1024)
+    @Column(name = "content", length = 8192, columnDefinition = "TINYTEXT", nullable = false)
     private String content;
+
+    @Column(name = "create_time", columnDefinition = "TIMESTAMP", nullable = false)
+    private Timestamp createTime;
+
+    @Column(name = "edit_time", columnDefinition = "TIMESTAMP", nullable = true)
+    private Timestamp editTime;
+
+    @Column(name = "public_time", columnDefinition = "TIMESTAMP", nullable = true)
+    private Timestamp publicTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
@@ -43,9 +49,9 @@ public class Post {
     @ForeignKey(name = "fk_posts_users")
     private User user;
 
-    @OneToMany(mappedBy = "partner", targetEntity=Comment.class)
+    @OneToMany(mappedBy = "post", targetEntity = Comment.class)
     @Cascade(CascadeType.SAVE_UPDATE)
-    private Set<Comment> partners;
+    private Set<Comment> comments;
 
     /**
      * @return the id
@@ -63,33 +69,18 @@ public class Post {
     }
 
     /**
-     * @return the createTime
+     * @return the title
      */
-    public Timestamp getCreateTime() {
-	return createTime;
+    public String getTitle() {
+	return title;
     }
 
     /**
-     * @param createTime
-     *            the createTime to set
+     * @param title
+     *            the title to set
      */
-    public void setCreateTime(Timestamp createTime) {
-	this.createTime = createTime;
-    }
-
-    /**
-     * @return the editTime
-     */
-    public Timestamp getEditTime() {
-	return editTime;
-    }
-
-    /**
-     * @param editTime
-     *            the editTime to set
-     */
-    public void setEditTime(Timestamp editTime) {
-	this.editTime = editTime;
+    public void setTitle(String title) {
+	this.title = title;
     }
 
     /**
@@ -123,6 +114,51 @@ public class Post {
     }
 
     /**
+     * @return the createTime
+     */
+    public Timestamp getCreateTime() {
+	return createTime;
+    }
+
+    /**
+     * @param createTime
+     *            the createTime to set
+     */
+    public void setCreateTime(Timestamp createTime) {
+	this.createTime = createTime;
+    }
+
+    /**
+     * @return the editTime
+     */
+    public Timestamp getEditTime() {
+	return editTime;
+    }
+
+    /**
+     * @param editTime
+     *            the editTime to set
+     */
+    public void setEditTime(Timestamp editTime) {
+	this.editTime = editTime;
+    }
+
+    /**
+     * @return the publicTime
+     */
+    public Timestamp getPublicTime() {
+	return publicTime;
+    }
+
+    /**
+     * @param publicTime
+     *            the publicTime to set
+     */
+    public void setPublicTime(Timestamp publicTime) {
+	this.publicTime = publicTime;
+    }
+
+    /**
      * @return the user
      */
     public User getUser() {
@@ -138,17 +174,18 @@ public class Post {
     }
 
     /**
-     * @return the partners
+     * @return the comments
      */
-    public Set<Comment> getPartners() {
-	return partners;
+    public Set<Comment> getComments() {
+	return comments;
     }
 
     /**
-     * @param partners
-     *            the partners to set
+     * @param comments
+     *            the comments to set
      */
-    public void setPartners(Set<Comment> partners) {
-	this.partners = partners;
+    public void setComments(Set<Comment> comments) {
+	this.comments = comments;
     }
+
 }
